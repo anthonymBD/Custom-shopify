@@ -1,0 +1,106 @@
+{{ "am-custom.css" | asset_url | stylesheet_tag }}
+
+<section id="one" class="color-{{ section.settings.color_scheme }} gradient" >
+  <div class="grid-container">
+    <div class="grid-one">
+     {%- if section.settings.image != blank -%}
+      <img
+        class="img-fluid"
+         src="{{ section.settings.image | img_url: '1500x' }}"
+        loading="lazy"
+        alt="{{ section.settings.image.alt | escape }}"
+      />
+      {% else %}
+
+  {{ 'product-1' | placeholder_svg_tag: 'img-fluid' }}
+
+
+{% endif %}
+    </div>
+    <div class="grid-two">
+      <h1 class="desktop-h1">
+        {{section.settings.desktopHeader}}
+      </h1>
+      <h1 class="mobile-h1">{{section.settings.mobileHeader}}</h1>
+      <div class="hero-info">
+
+        <a class="bttn" role="link" aria-disabled="true" href="{{section.settings.button_link}}">
+        {{section.settings.button_text}}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %} { 
+"name": "custom-hero",
+ "class": "section", 
+ "tag":"section",
+ "settings": [
+     {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.header.settings.color_scheme.options__1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.header.settings.color_scheme.options__2.label"
+        },
+        {
+          "value": "background-1",
+          "label": "t:sections.header.settings.color_scheme.options__3.label"
+        },
+        {
+          "value": "background-2",
+          "label": "t:sections.header.settings.color_scheme.options__4.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.header.settings.color_scheme.options__5.label"
+        }
+      ],
+       "default": "accent-2",
+      "label": "t:sections.header.settings.color_scheme.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "hero image"
+    },
+    {
+        "id": "desktopHeader",
+        "type":"html",
+        "label": "Desktop header",
+        "default": "<p>default text here</p>",
+        "placeholder":"text will only show up on desktop"
+    },
+      {
+        "id": "mobileHeader",
+        "type":"richtext",
+        "label": "Mobile header",
+        "default": "<p>default text here</p>",
+         "info":"text will only show up on mobile"
+    },
+     {
+         "id": "button_text",
+          "type": "text",
+          "default": "buy now",
+          "label": "button text"
+        },
+        {
+            "id": "button_link",
+          "type": "url",
+          "label": "pick url for page"
+        }
+ ],
+  "templates": ["article", "index", "page", "product"],
+    "presets": [
+    {
+      "name": "custom-hero"
+    }
+  ]
+ 
+  } {% endschema %}

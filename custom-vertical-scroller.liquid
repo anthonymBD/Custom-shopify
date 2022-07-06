@@ -1,0 +1,232 @@
+{{ "am-custom.css" | asset_url | stylesheet_tag }}
+
+{% style %}
+ h4,p { color: black;}
+
+ svg.icon.icon-moon {
+    fill: black;
+    height: 50px;
+    width: 50px;
+}
+
+svg.w-50.h-50 {
+    fill: black;
+    height: 50px;
+    width: 50px;
+}
+
+{% endstyle %}
+<section class="two">
+  <div class="grid-container">
+    <div class="grid-one {%- if section.settings.image_2 or section.settings.image_3 != blank  -%}withscroll{%- endif -%}">
+      <h4>{{section.settings.firstText}}</h4>
+
+        {% if section.settings.image != blank %}
+         <img class="image-1"
+           src="{{ section.settings.image | img_url: '1500x' }}"
+         loading="lazy"
+         alt="{{ section.settings.image.alt | escape }}"
+             />
+
+        {% else section.settings.image == blank %}  
+             <div class="default-placeholder"> 
+                 {{ 'product-1' | placeholder_svg_tag: 'img-fluid' }}
+                 </div>
+        {% endif %}  
+
+
+{% if section.settings.image_2 == blank %} 
+
+     {% else  section.settings.image_2 != blank %}
+        <h4>{{section.settings.secondText}}</h4>
+
+            <img class="image-2"
+            src="{{ section.settings.image_2 | img_url: '1500x' }}"
+            loading="lazy"
+            alt="{{ section.settings.image_2.alt | escape }}"
+        />
+    
+    {% endif %}
+
+{% if  section.settings.image_3 == blank  %}     <span class="square"></span>
+
+     {% else section.settings.image_3 != blank %}
+            <h4>{{section.settings.thirdText}}</h4>
+
+        <img class="image-3"
+                src="{{ section.settings.image_3 | img_url: '1500x' }}"
+                loading="lazy"
+                alt="{{ section.settings.image_3.alt | escape }}"
+            />
+
+                <span class="square"></span>
+  {% endif %}
+
+    </div>
+
+    <div class="grid-override withoutscroll">
+        {% for block in section.blocks %}
+            {% case block.type %}
+                {% when 'heading' %}
+             
+            <h4> {{ block.settings.header_text }}</h4>
+                   {% when 'list' %}
+                  <div class="layers">
+                    <div class="imger">
+                     {%- if block.settings.imageLayer != blank -%}
+                         <img src="{{ block.settings.imageLayer | img_url: '50x' }}" alt="{{ block.settings.imageLayer.alt }}" /> 
+                       {%- else  block.settings.imageLayer == blank -%}
+                                       {%- render 'icon-moon' -%}
+          {%- endif -%}
+                       
+                        </div>
+                    <div class="texter">
+                    <p> {{ block.settings.list_text }}</p>
+                    </div>
+                    
+                </div>
+             
+         
+     {% when 'buttonLink' %}
+
+             <div class="hero-info">
+            <a class="bttn" role="link" aria-disabled="true" href="{{ block.settings.button_link }}" {{ block.shopify_attributes }}>
+        {{ block.settings.button_text}} </a>
+             </div>
+
+           {% endcase %}
+              {% endfor %}
+           
+  </div>
+
+</section>
+
+
+
+
+{% schema %} {
+    "name": "custom-vertical-scroller", 
+"class": "section",
+"tag":"section",
+"settings": [
+     {
+         "id": "firstText",
+        "type":"richtext",
+        "label": "text above first image",
+         "default": "<p>default text here</p>"
+     },
+         {
+      "type": "image_picker",
+      "id": "image",
+      "label": "first image"
+    },
+       {
+         "id": "secondText",
+        "type":"richtext",
+        "label": "text above second image",
+         "default": "<p>default text here</p>",
+            "info":"text will only show if second image is selected"
+     },
+          {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "second image"
+    },
+     {
+         "id": "thirdText",
+        "type":"richtext",
+        "label": "text above Last image",
+         "default": "<p>default text here</p>",
+            "info":"text will only show if last image is selected"
+     },
+         {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "last image"
+    }        
+],
+"blocks":[  
+    { 
+        "type": "heading",
+        "name":"heading",
+        "limit":1,
+        "settings": [
+              {
+         "id": "header_text",
+          "type": "text",
+          "default": "The content should be put here",
+          "label": "header text",
+          "placeholder":"text will only show once in each block"
+        }
+        ]
+        },
+         { 
+     "type": "list",
+    "name": "images with text",
+    "limit":4,
+    "settings": [  
+         {
+      "type": "image_picker",
+      "id": "imageLayer",
+      "label": "image"
+    },
+         {
+         "id": "list_text",
+          "type": "text",
+          "default": "hey in shopify you can have text here",
+          "label": "list text"
+        }
+        ]
+    },
+       {
+            "type" : "buttonLink",
+            "name": "button to products",
+            "limit": 1,
+            "settings": [ {
+
+         "id": "button_text",
+          "type": "text",
+          "default": "buy now",
+          "label": "button text"
+        },
+        {
+            "id": "button_link",
+          "type": "url",
+          "label": "pick url for page"
+        }
+            ]
+        } 
+    ],
+  "presets": [
+    { 
+     "name": "custom-vertical-scroller",
+      "blocks": [
+        {
+          "type": "heading",
+          "settings": {
+            "header_text" : "The content should be put here "
+          }
+        },
+        {
+          "type": "list"
+      
+        },
+        {
+          "type": "list"
+        },
+        {
+          "type": "list"
+        },
+           {
+          "type": "list"
+        },
+        { 
+          "type": "buttonLink" 
+          }
+      ]
+      
+    }
+    ]
+
+}
+ {% endschema %}
