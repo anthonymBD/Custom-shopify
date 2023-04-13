@@ -1,7 +1,7 @@
 ## ALL custom shopify work and what each page does and why
 
 
-### custom Hero-one
+### custom basic-hero
 -- this was based before Dawn changed things with 9.0 (code needs to be refactor for custom mobile image (90% done) might post tonight 4/13/2023
 
 ## custom Tabs
@@ -10,7 +10,7 @@
 ## Custom animation shopify pages
   *first two*
 1. animation-hero (top part)
-2. vertical slider bottom (bottom) 
+2. vertical-slider bottom (bottom) 
 
   	[HTML DEMO](https://silver-sunflower-d9988a.netlify.app/test)
 not a fan of the animation ! 4/13/2023 will change soon 
