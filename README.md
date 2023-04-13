@@ -2,7 +2,7 @@
 
 
 ### custom basic-hero
--- this was based before Dawn changed things with 9.0 (code needs to be refactor for custom mobile image (90% done) might post tonight 4/13/2023
+-- newiest code 
 
 ## custom Tabs
 --CSS inside liquid for now might change
