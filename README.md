@@ -2,7 +2,7 @@
 
 
 ### custom basic-hero
--- newiest code 
+-- newiest code sass based 
 
 ## custom Tabs
 --CSS inside liquid for now might change
