@@ -8,7 +8,7 @@
 --CSS inside liquid for now might change
 
 ## Custom animation shopify pages
-  * first two *
+  *first two*
 1. animation-hero (top part)
 2. vertical slider bottom (bottom) 
 
