@@ -1,0 +1,203 @@
+<style>
+    /* The grid*/
+
+#amTabs h2.heading.h2.tabs {
+	text-align: center;
+}
+
+/* The grid*/
+ #amTabs .card {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			grid-template-rows: 2;
+			grid-template-areas: 
+				"t-1 t-2 t-3 t-4"
+				"ver ver ver ver";
+}
+/* & the labels go to... */
+#amTabs [for*='-1'] {
+	grid-area: t-1;
+}
+#amTabs [for*='-2'] {
+	grid-area: t-2;
+}
+#amTabs [for*='-3'] {
+	grid-area: t-3;
+}
+ #amTabs [for*='-4'] {
+	grid-area: t-4;
+}
+/* show each content */
+ #amTabs :checked + label + article
+ {
+	grid-area: ver;
+	z-index: 1;
+}
+
+/* Let´s do it nice & funny */
+#amTabs .card{
+	max-width: 100%;
+	width: 90%;
+	margin: 4rem auto 0;
+	box-shadow: 0 3px 3px rgba(0,0,0,.3);
+	border: 1px solid rgba(0,0,0,.3);
+	border-top: 0 none;
+	overflow: hidden;
+	margin-bottom: 2rem;
+}
+#amTabs [class*='tab-'] {
+	opacity: 0;
+	max-width: 0;
+	max-height: 0;
+	display: flex;
+	flex-direction: columns;
+	flex-wrap: nowrap;
+	align-items: center;
+}
+ #amTabs :checked + label + [class*='tab-'] {
+	background: #fff;
+	opacity: 1;
+	max-width: 100%;
+	max-height: 100vh;
+	animation: show 1s;
+}
+#amTabs label {
+	cursor: pointer;
+	font-size: 1.5rem;
+	line-height: 2;
+	text-align: center;
+	z-index: 1;
+	border-left:1px solid rgb(102, 102, 102);
+}
+#amTabs label:hover {
+	background: rgba(0,0,0,.2);
+}
+#amTabs input:not(checked) + label {
+	background: rgba(0,0,0,.05);
+}
+#amTabs input:checked + label {
+	background: #fff;
+	    padding: 0 0 2px;
+    border: 2px solid #92353500;
+    border-color: #2a2a2a;
+}
+ #amTabs .hide {
+	display: none;
+}
+#amTabs .card h1 {
+	background: #333;
+	color: #fff;
+	box-shadow: 0 0 3px rgba(0,0,0,.2);
+	border: 1px solid #000;
+	text-align: center;
+	line-height: 2;
+	font-weight: 100;
+	letter-spacing: 1vw;
+}
+#amTabs section {
+	padding: .5rem;
+}
+#amTabs h2 {
+	font-weight: 100;
+}
+#amTabs .products-labels {
+	max-width: calc(50%);
+  height: auto;
+      margin: 2rem 0 2rem 1rem;
+}
+#amTabs p {
+	margin-top: 1rem;
+	line-height: 1.5;
+}
+
+
+@keyframes show {
+	0%, 20% {
+		opacity: 0;
+		max-height: 0;
+	}
+	100%{
+		opacity: 1;
+		max-height: 100vh;
+	}
+}
+
+@media only screen and (max-width:700px){
+#amTabs [class*='tab-'] {
+    flex-direction: column;
+}
+
+#amTabs .products-labels {max-width: calc(80%);}
+
+#amTabs	label {font-size:15px;}
+}
+
+
+
+</style>
+
+
+<section id="amTabs">
+<h2 class="heading h2 tabs">
+	{{ section.settings.tabTitle }}
+</h2>
+
+<div class='card'>
+    {% for block in section.blocks %}
+    	<input class='hide' type="radio" id="tab-{{forloop.index}}" name="tractor"  
+		 {% if forloop.first %}checked{% endif %}
+		/>
+	<label for='tab-{{forloop.index}}'>{{ block.settings.flavor }}</label>
+	<article class='tab-{{forloop.index}}'>
+      <img  class="products-labels" alt=''  src="{{ block.settings.image | img_url: 'master' }}" />
+		<section>
+			{{ block.settings.ingredients }}
+		</section>
+	</article>
+    
+    {% endfor %}	
+	</div>
+
+</section>
+
+
+
+
+{% schema %}
+{
+    "name":"custom tabs",
+
+    "settings":[
+	{
+		"id":"tabTitle",
+		"type":"text",
+		"label":"the title"
+	}
+	],
+    "blocks":[
+     {
+         "type":"text",
+         "name": "tabs",
+         "settings":[
+         {
+             "id":"flavor",
+             "type": "text",
+             "label": "flavors here"
+         },
+          {
+             "id":"ingredients",
+             "type": "richtext",
+             "label": "ingredients here"
+         },
+         {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+         ]
+     }
+    
+    ]
+}
+
+{% endschema %}
