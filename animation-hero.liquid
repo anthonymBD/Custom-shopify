@@ -1,35 +1,90 @@
 {{ "am-custom.css" | asset_url | stylesheet_tag }}
+{% style %}
+h4,p { color: black;}
 
-<section id="one" class="color-{{ section.settings.color_scheme }} gradient" >
-  <div class="grid-container">
-    <div class="grid-one">
-     {%- if section.settings.image != blank -%}
-      <img
-        class="img-fluid"
-         src="{{ section.settings.image | img_url: '1500x' }}"
-        loading="lazy"
-        alt="{{ section.settings.image.alt | escape }}"
-      />
-      {% else %}
+svg.icon.icon-moon {
+fill: black;
+height: 50px;
+width: 50px;
+}
 
-  {{ 'product-1' | placeholder_svg_tag: 'img-fluid' }}
+svg.w-50.h-50 {
+fill: black;
+height: 50px;
+width: 50px;
+}
 
+{% endstyle %}
+<section class="two">
+    <div class="grid-container">
+        <div
+            class="grid-one {%- if section.settings.image_2 or section.settings.image_3 != blank  -%}withscroll{%- endif -%}">
+            <h4>{{section.settings.firstText}}</h4>
 
-{% endif %}
-    </div>
-    <div class="grid-two">
-      <h1 class="desktop-h1">
-        {{section.settings.desktopHeader}}
-      </h1>
-      <h1 class="mobile-h1">{{section.settings.mobileHeader}}</h1>
-      <div class="hero-info">
+            {% if section.settings.image != blank %}
+            <img class="image-1" src="{{ section.settings.image | img_url: '1500x' }}" loading="lazy"
+                alt="{{ section.settings.image.alt | escape }}" />
 
-        <a class="bttn" role="link" aria-disabled="true" href="{{section.settings.button_link}}">
-        {{section.settings.button_text}}
-        </a>
-      </div>
-    </div>
-  </div>
+            {% else section.settings.image == blank %}
+            <div class="default-placeholder">
+                {{ 'product-1' | placeholder_svg_tag: 'img-fluid' }}
+            </div>
+            {% endif %}
+
+            {% if section.settings.image_2 == blank %}
+            {% else section.settings.image_2 != blank %}
+            <h4>{{section.settings.secondText}}</h4>
+
+            <img class="image-2" src="{{ section.settings.image_2 | img_url: '1500x' }}" loading="lazy"
+                alt="{{ section.settings.image_2.alt | escape }}" />
+
+            {% endif %}
+
+            {% if section.settings.image_3 == blank %} <span class="square"></span>
+            {% else section.settings.image_3 != blank %}
+
+            <h4> {{section.settings.thirdText}} </h4>
+            <img class="image-3" src="{{ section.settings.image_3 | img_url: '1500x' }}" loading="lazy"
+                alt="{{ section.settings.image_3.alt | escape }}" />
+
+            <span class="square"></span>
+            {% endif %}
+        </div>
+
+        <div class="grid-override withoutscroll">
+            {% for block in section.blocks %}
+            {% case block.type %}
+            {% when 'heading' %}
+
+            <h4> {{ block.settings.header_text }} </h4>
+
+            {% when 'list' %}
+
+            <div class="layers">
+                <div class="imger">
+                    {%- if block.settings.imageLayer != blank -%}
+                    <img src="{{ block.settings.imageLayer | img_url: '50x' }}"
+                        alt="{{ block.settings.imageLayer.alt }}" />
+                    {%- else block.settings.imageLayer == blank -%}
+                    {%- render 'icon-moon' -%}
+                    {%- endif -%}
+                </div>
+
+                <div class="texter">
+                    <p> {{ block.settings.list_text }}</p>
+                </div>
+
+            </div>
+            {% when 'buttonLink' %}
+
+            <div class="hero-info">
+                <a class="bttn" role="link" aria-disabled="true" href="{{ block.settings.button_link }}" {{
+                    block.shopify_attributes }}>
+                    {{ block.settings.button_text}} </a>
+            </div>
+            {% endcase %}
+            {% endfor %}
+        </div>
 </section>
 
 {% schema %} { 
